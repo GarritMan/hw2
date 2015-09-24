@@ -45,7 +45,7 @@ insert_word( dict_t *d, char *word ) {
   nd->next = di;		// entry bigger than word or tail 
   if (pd) {
     pd->next = nd;
-    return d;			// insert beond head 
+    return d;			// insert beyond head 
   }
   return nd;
 }
@@ -59,6 +59,7 @@ void print_dict(dict_t *d) {
 
 int
 get_word( char *buf, int n, FILE *infile) {
+	
   int inword = 0;
   int c;  
   while( (c = fgetc(infile)) != EOF ) {
