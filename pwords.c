@@ -3,10 +3,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <pthread.h>
+#include <time.h>
 
 #define NUM_THREADS 4
 pthread_mutex_t mutexdict;
-pthread_mutex_t mutexword;
 
 
 typedef struct dict {
@@ -122,7 +122,7 @@ main( int argc, char *argv[] ) {
 	pthread_t thread_ID[NUM_THREADS];
 	void *status;
 	pthread_mutex_init(&mutexdict, NULL);
-	pthread_mutex_init(&mutexword,NULL);
+	
 	
 	FILE *infile = stdin;
 	if (argc >= 2) {
@@ -133,7 +133,8 @@ main( int argc, char *argv[] ) {
 		exit( EXIT_FAILURE );
 	}
 	
-	
+	clock_t begin, end;
+	double time_spent;
 	
 	dict_t *wd = NULL;
 	char wordbuf[MAXWORD];
@@ -152,10 +153,13 @@ main( int argc, char *argv[] ) {
 	for(i=0;i<NUM_THREADS;i++){
 		pthread_join(thread_ID[i],&status);
 	}
-	//d = words( infile );
+	
 	
 	print_dict( TD->dict );
 	int sta=pthread_mutex_destroy(&mutexdict);
+	
+	
+	
 	printf("done %d\n",sta);
 	pthread_mutex_destroy(&mutexword);
 	fclose( infile );
